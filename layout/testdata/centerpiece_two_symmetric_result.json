@@ -1,0 +1,61 @@
+{
+  "anchor": {
+    "itemId": "main",
+    "centerX": 0,
+    "centerY": 0
+  },
+  "items": [
+    {
+      "id": "main",
+      "centerX": 0,
+      "centerY": 0,
+      "x": -10,
+      "y": -10,
+      "width": 20,
+      "height": 20,
+      "shape": "rectangle",
+      "offsetFromAnchor": 0,
+      "direction": "C",
+      "adjacentIds": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "id": "left",
+      "centerX": -17,
+      "centerY": -2,
+      "x": -22,
+      "y": -7,
+      "width": 10,
+      "height": 10,
+      "shape": "square",
+      "offsetFromAnchor": 17.11724276862369,
+      "direction": "W",
+      "adjacentIds": [
+        "main"
+      ]
+    },
+    {
+      "id": "right",
+      "centerX": -2,
+      "centerY": 17,
+      "x": -7,
+      "y": 12,
+      "width": 10,
+      "height": 10,
+      "shape": "square",
+      "offsetFromAnchor": 17.11724276862369,
+      "direction": "S",
+      "adjacentIds": [
+        "main"
+      ]
+    }
+  ],
+  "bounds": {
+    "minX": -22,
+    "minY": -10,
+    "maxX": 10,
+    "maxY": 22
+  }
+}

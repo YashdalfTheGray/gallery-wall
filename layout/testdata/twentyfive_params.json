@@ -1,0 +1,180 @@
+{
+  "gap": 2,
+  "items": [
+    {
+      "id": "main",
+      "height": 13,
+      "width": 15,
+      "shape": "rectangle",
+      "centerpiece": true
+    },
+    {
+      "id": "p01",
+      "height": 8,
+      "width": 6,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p02",
+      "height": 10,
+      "width": 8,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p03",
+      "height": 6,
+      "width": 6,
+      "shape": "square",
+      "centerpiece": false
+    },
+    {
+      "id": "p04",
+      "height": 12,
+      "width": 9,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p05",
+      "height": 7,
+      "width": 10,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p06",
+      "height": 9,
+      "width": 7,
+      "shape": "ellipse",
+      "centerpiece": false
+    },
+    {
+      "id": "p07",
+      "height": 5,
+      "width": 5,
+      "shape": "circle",
+      "centerpiece": false
+    },
+    {
+      "id": "p08",
+      "height": 11,
+      "width": 8,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p09",
+      "height": 8,
+      "width": 10,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p10",
+      "height": 10,
+      "width": 6,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p11",
+      "height": 6,
+      "width": 8,
+      "shape": "square",
+      "centerpiece": false
+    },
+    {
+      "id": "p12",
+      "height": 12,
+      "width": 7,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p13",
+      "height": 9,
+      "width": 9,
+      "shape": "square",
+      "centerpiece": false
+    },
+    {
+      "id": "p14",
+      "height": 7,
+      "width": 5,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p15",
+      "height": 10,
+      "width": 10,
+      "shape": "square",
+      "centerpiece": false
+    },
+    {
+      "id": "p16",
+      "height": 8,
+      "width": 7,
+      "shape": "ellipse",
+      "centerpiece": false
+    },
+    {
+      "id": "p17",
+      "height": 11,
+      "width": 6,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p18",
+      "height": 5,
+      "width": 7,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p19",
+      "height": 9,
+      "width": 10,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p20",
+      "height": 12,
+      "width": 8,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p21",
+      "height": 6,
+      "width": 9,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p22",
+      "height": 8,
+      "width": 8,
+      "shape": "circle",
+      "centerpiece": false
+    },
+    {
+      "id": "p23",
+      "height": 10,
+      "width": 7,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "p24",
+      "height": 7,
+      "width": 9,
+      "shape": "rectangle",
+      "centerpiece": false
+    }
+  ]
+}

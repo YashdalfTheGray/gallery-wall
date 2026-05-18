@@ -1,0 +1,27 @@
+{
+  "anchor": {
+    "itemId": "main",
+    "centerX": 0,
+    "centerY": 0
+  },
+  "items": [
+    {
+      "id": "main",
+      "centerX": 0,
+      "centerY": 0,
+      "x": -12,
+      "y": -18,
+      "width": 24,
+      "height": 36,
+      "shape": "rectangle",
+      "offsetFromAnchor": 0,
+      "direction": "C"
+    }
+  ],
+  "bounds": {
+    "minX": -12,
+    "minY": -18,
+    "maxX": 12,
+    "maxY": 18
+  }
+}

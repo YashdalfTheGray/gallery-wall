@@ -1,0 +1,54 @@
+{
+  "gap": 2,
+  "items": [
+    {
+      "id": "main",
+      "height": 36,
+      "width": 24,
+      "shape": "rectangle",
+      "centerpiece": true
+    },
+    {
+      "id": "left",
+      "height": 14,
+      "width": 11,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "right",
+      "height": 14,
+      "width": 11,
+      "shape": "rectangle",
+      "centerpiece": false
+    },
+    {
+      "id": "top",
+      "height": 10,
+      "width": 10,
+      "shape": "circle",
+      "centerpiece": false
+    },
+    {
+      "id": "bottom",
+      "height": 12,
+      "width": 16,
+      "shape": "ellipse",
+      "centerpiece": false
+    },
+    {
+      "id": "tl",
+      "height": 8,
+      "width": 8,
+      "shape": "square",
+      "centerpiece": false
+    },
+    {
+      "id": "br",
+      "height": 8,
+      "width": 8,
+      "shape": "square",
+      "centerpiece": false
+    }
+  ]
+}

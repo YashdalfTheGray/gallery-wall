@@ -1,0 +1,447 @@
+{
+  "anchor": {
+    "itemId": "main",
+    "centerX": 0,
+    "centerY": 0
+  },
+  "items": [
+    {
+      "id": "main",
+      "centerX": 0,
+      "centerY": 0,
+      "x": -7.5,
+      "y": -6.5,
+      "width": 15,
+      "height": 13,
+      "shape": "rectangle",
+      "offsetFromAnchor": 0,
+      "direction": "C",
+      "adjacentIds": [
+        "p02",
+        "p04",
+        "p12",
+        "p15",
+        "p19",
+        "p20"
+      ]
+    },
+    {
+      "id": "p04",
+      "centerX": -14,
+      "centerY": -2,
+      "x": -18.5,
+      "y": -8,
+      "width": 9,
+      "height": 12,
+      "shape": "rectangle",
+      "offsetFromAnchor": 14.142135623730951,
+      "direction": "W",
+      "adjacentIds": [
+        "main",
+        "p08",
+        "p09",
+        "p12",
+        "p22",
+        "p23"
+      ]
+    },
+    {
+      "id": "p15",
+      "centerX": 2,
+      "centerY": -13.5,
+      "x": -3,
+      "y": -18.5,
+      "width": 10,
+      "height": 10,
+      "shape": "square",
+      "offsetFromAnchor": 13.647344063956181,
+      "direction": "N",
+      "adjacentIds": [
+        "main",
+        "p05",
+        "p08",
+        "p10"
+      ]
+    },
+    {
+      "id": "p20",
+      "centerX": 13.5,
+      "centerY": 2,
+      "x": 9.5,
+      "y": -4,
+      "width": 8,
+      "height": 12,
+      "shape": "rectangle",
+      "offsetFromAnchor": 13.647344063956181,
+      "direction": "E",
+      "adjacentIds": [
+        "main",
+        "p02",
+        "p06",
+        "p13",
+        "p17"
+      ]
+    },
+    {
+      "id": "p19",
+      "centerX": -2,
+      "centerY": 13,
+      "x": -7,
+      "y": 8.5,
+      "width": 10,
+      "height": 9,
+      "shape": "rectangle",
+      "offsetFromAnchor": 13.152946437965904,
+      "direction": "S",
+      "adjacentIds": [
+        "main",
+        "p24"
+      ]
+    },
+    {
+      "id": "p08",
+      "centerX": -9,
+      "centerY": -15.5,
+      "x": -13,
+      "y": -21,
+      "width": 8,
+      "height": 11,
+      "shape": "rectangle",
+      "offsetFromAnchor": 17.923448328934924,
+      "direction": "NW",
+      "adjacentIds": [
+        "p01",
+        "p04",
+        "p05",
+        "p09",
+        "p15"
+      ]
+    },
+    {
+      "id": "p12",
+      "centerX": -13,
+      "centerY": 12,
+      "x": -16.5,
+      "y": 6,
+      "width": 7,
+      "height": 12,
+      "shape": "rectangle",
+      "offsetFromAnchor": 17.69180601295413,
+      "direction": "SW",
+      "adjacentIds": [
+        "main",
+        "p04",
+        "p11",
+        "p23"
+      ]
+    },
+    {
+      "id": "p13",
+      "centerX": 10,
+      "centerY": 14.5,
+      "x": 5.5,
+      "y": 10,
+      "width": 9,
+      "height": 9,
+      "shape": "square",
+      "offsetFromAnchor": 17.613914953808536,
+      "direction": "SE",
+      "adjacentIds": [
+        "p06",
+        "p16",
+        "p20",
+        "p21"
+      ]
+    },
+    {
+      "id": "p02",
+      "centerX": 13.5,
+      "centerY": -11,
+      "x": 9.5,
+      "y": -16,
+      "width": 8,
+      "height": 10,
+      "shape": "rectangle",
+      "offsetFromAnchor": 17.414074767268,
+      "direction": "NE",
+      "adjacentIds": [
+        "main",
+        "p03",
+        "p10",
+        "p14",
+        "p17",
+        "p20"
+      ]
+    },
+    {
+      "id": "p09",
+      "centerX": -20,
+      "centerY": -14,
+      "x": -25,
+      "y": -18,
+      "width": 10,
+      "height": 8,
+      "shape": "rectangle",
+      "offsetFromAnchor": 24.413111231467404,
+      "direction": "NW",
+      "adjacentIds": [
+        "p04",
+        "p07",
+        "p08",
+        "p22"
+      ]
+    },
+    {
+      "id": "p05",
+      "centerX": 2,
+      "centerY": -24,
+      "x": -3,
+      "y": -27.5,
+      "width": 10,
+      "height": 7,
+      "shape": "rectangle",
+      "offsetFromAnchor": 24.083189157584588,
+      "direction": "N",
+      "adjacentIds": [
+        "p01",
+        "p08",
+        "p10",
+        "p15"
+      ]
+    },
+    {
+      "id": "p23",
+      "centerX": -22,
+      "centerY": 11,
+      "x": -25.5,
+      "y": 6,
+      "width": 7,
+      "height": 10,
+      "shape": "rectangle",
+      "offsetFromAnchor": 24.596747752497688,
+      "direction": "SW",
+      "adjacentIds": [
+        "p04",
+        "p12",
+        "p18"
+      ]
+    },
+    {
+      "id": "p17",
+      "centerX": 22.5,
+      "centerY": -2,
+      "x": 19.5,
+      "y": -7.5,
+      "width": 6,
+      "height": 11,
+      "shape": "rectangle",
+      "offsetFromAnchor": 22.588713996153032,
+      "direction": "E",
+      "adjacentIds": [
+        "p02",
+        "p20"
+      ]
+    },
+    {
+      "id": "p22",
+      "centerX": -24.5,
+      "centerY": -4,
+      "x": -28.5,
+      "y": -8,
+      "width": 8,
+      "height": 8,
+      "shape": "circle",
+      "offsetFromAnchor": 24.82438317461282,
+      "direction": "W",
+      "adjacentIds": [
+        "p04",
+        "p09"
+      ]
+    },
+    {
+      "id": "p06",
+      "centerX": 20,
+      "centerY": 14.5,
+      "x": 16.5,
+      "y": 10,
+      "width": 7,
+      "height": 9,
+      "shape": "ellipse",
+      "offsetFromAnchor": 24.70323865407125,
+      "direction": "SE",
+      "adjacentIds": [
+        "p13",
+        "p20",
+        "p21"
+      ]
+    },
+    {
+      "id": "p24",
+      "centerX": -2,
+      "centerY": 23,
+      "x": -6.5,
+      "y": 19.5,
+      "width": 9,
+      "height": 7,
+      "shape": "rectangle",
+      "offsetFromAnchor": 23.086792761230395,
+      "direction": "S",
+      "adjacentIds": [
+        "p16",
+        "p19"
+      ]
+    },
+    {
+      "id": "p10",
+      "centerX": 12,
+      "centerY": -23,
+      "x": 9,
+      "y": -28,
+      "width": 6,
+      "height": 10,
+      "shape": "rectangle",
+      "offsetFromAnchor": 25.942243542145697,
+      "direction": "NE",
+      "adjacentIds": [
+        "p02",
+        "p05",
+        "p15"
+      ]
+    },
+    {
+      "id": "p16",
+      "centerX": 8,
+      "centerY": 25,
+      "x": 4.5,
+      "y": 21,
+      "width": 7,
+      "height": 8,
+      "shape": "ellipse",
+      "offsetFromAnchor": 26.248809496813376,
+      "direction": "S",
+      "adjacentIds": [
+        "p13",
+        "p21",
+        "p24"
+      ]
+    },
+    {
+      "id": "p21",
+      "centerX": 18,
+      "centerY": 24,
+      "x": 13.5,
+      "y": 21,
+      "width": 9,
+      "height": 6,
+      "shape": "rectangle",
+      "offsetFromAnchor": 30,
+      "direction": "SE",
+      "adjacentIds": [
+        "p06",
+        "p13",
+        "p16"
+      ]
+    },
+    {
+      "id": "p01",
+      "centerX": -8,
+      "centerY": -27,
+      "x": -11,
+      "y": -31,
+      "width": 6,
+      "height": 8,
+      "shape": "rectangle",
+      "offsetFromAnchor": 28.160255680657446,
+      "direction": "N",
+      "adjacentIds": [
+        "p05",
+        "p08"
+      ]
+    },
+    {
+      "id": "p11",
+      "centerX": -13.5,
+      "centerY": 23,
+      "x": -17.5,
+      "y": 20,
+      "width": 8,
+      "height": 6,
+      "shape": "square",
+      "offsetFromAnchor": 26.669270706189174,
+      "direction": "SW",
+      "adjacentIds": [
+        "p12",
+        "p18"
+      ]
+    },
+    {
+      "id": "p03",
+      "centerX": 22.5,
+      "centerY": -13,
+      "x": 19.5,
+      "y": -16,
+      "width": 6,
+      "height": 6,
+      "shape": "square",
+      "offsetFromAnchor": 25.98557292037256,
+      "direction": "NE",
+      "adjacentIds": [
+        "p02",
+        "p14"
+      ]
+    },
+    {
+      "id": "p14",
+      "centerX": 20,
+      "centerY": -21.5,
+      "x": 17.5,
+      "y": -25,
+      "width": 5,
+      "height": 7,
+      "shape": "rectangle",
+      "offsetFromAnchor": 29.364093720052047,
+      "direction": "NE",
+      "adjacentIds": [
+        "p02",
+        "p03"
+      ]
+    },
+    {
+      "id": "p18",
+      "centerX": -23,
+      "centerY": 20.5,
+      "x": -26.5,
+      "y": 18,
+      "width": 7,
+      "height": 5,
+      "shape": "rectangle",
+      "offsetFromAnchor": 30.80990100600779,
+      "direction": "SW",
+      "adjacentIds": [
+        "p11",
+        "p23"
+      ]
+    },
+    {
+      "id": "p07",
+      "centerX": -19,
+      "centerY": -22.5,
+      "x": -21.5,
+      "y": -25,
+      "width": 5,
+      "height": 5,
+      "shape": "circle",
+      "offsetFromAnchor": 29.449108645254444,
+      "direction": "NW",
+      "adjacentIds": [
+        "p09"
+      ]
+    }
+  ],
+  "bounds": {
+    "minX": -28.5,
+    "minY": -31,
+    "maxX": 25.5,
+    "maxY": 29
+  }
+}

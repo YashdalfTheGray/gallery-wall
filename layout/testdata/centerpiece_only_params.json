@@ -1,0 +1,12 @@
+{
+  "gap": 2,
+  "items": [
+    {
+      "id": "main",
+      "height": 36,
+      "width": 24,
+      "shape": "rectangle",
+      "centerpiece": true
+    }
+  ]
+}
