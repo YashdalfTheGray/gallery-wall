@@ -1,5 +1,11 @@
 // Package layout arranges gallery-wall frames organically around a centerpiece.
 //
+// Install as a standalone module:
+//
+//	go get github.com/yashdalfthegray/gallery-wall/layout@latest
+//
+// See README.md in this directory for usage and release tags (layout/vX.Y.Z).
+//
 // Algorithm walkthrough: see ALGORITHM.md in this directory.
 //
 // The centerpiece is anchored at (0, 0). All other frames attach edge-to-edge

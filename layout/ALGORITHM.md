@@ -386,8 +386,13 @@ Use `errors.Is(err, &ValidationError{Code: …})` or [`IsValidationCode()`](erro
 [`example_test.go`](example_test.go) uses small inline datasets (self-contained runnable docs). Golden regression uses [`testdata/`](testdata/).
 
 ```bash
+# from repository root (requires go.work)
 go test ./layout/ -run Example -v
 go test ./layout/ -run Golden -v
+
+# or from this directory
+go test -run Example -v
+go test -run Golden -v
 ```
 
 **Visualize** with [`cmd/gallery-svg/`](../cmd/gallery-svg/) — needs a **result** JSON (positions), not params:
