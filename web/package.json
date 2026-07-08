@@ -1,0 +1,23 @@
+{
+  "name": "gallery-wall-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build:wasm": "bash ../scripts/build-wasm.sh",
+    "predev": "npm run build:wasm",
+    "dev": "vite",
+    "build": "npm run build:wasm && tsc && vite build",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@awesome.me/webawesome": "^3.10.0"
+  }
+}

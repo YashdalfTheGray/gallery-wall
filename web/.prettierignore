@@ -1,0 +1,4 @@
+dist
+node_modules
+public/layout.wasm
+public/wasm_exec.js
