@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="wa-cloak wa-theme-default wa-palette-default wa-brand-blue">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Gallery Wall</title>
+    <script>
+      document.documentElement.classList.add(
+        matchMedia("(prefers-color-scheme: dark)").matches ? "wa-dark" : "wa-light",
+      );
+    </script>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/brand.css" />
+  </head>
+  <body>
+    <header class="page-header wa-stack wa-gap-2xs">
+      <h1 class="wa-heading-xl">Gallery Wall</h1>
+      <p class="wa-caption-m">Layout frames around a centerpiece — runs locally in your browser.</p>
+    </header>
+
+    <section class="toolbar">
+      <wa-button id="btn-layout" variant="brand" appearance="filled">Arrange frames</wa-button>
+
+      <wa-button-group label="Load frames" class="load-group">
+        <wa-button id="btn-import" variant="brand" appearance="filled">Import from file…</wa-button>
+        <wa-dropdown id="load-dropdown">
+          <wa-button slot="trigger" variant="brand" appearance="filled" class="load-caret">
+            <wa-icon name="chevron-down" label="More load options"></wa-icon>
+          </wa-button>
+          <wa-dropdown-item id="btn-import-menu">Import from file…</wa-dropdown-item>
+          <wa-dropdown-item id="btn-random">Generate random (5–20 frames)</wa-dropdown-item>
+          <wa-dropdown-item id="btn-demo">Load 25-frame sample</wa-dropdown-item>
+        </wa-dropdown>
+      </wa-button-group>
+
+      <wa-dropdown id="export-dropdown">
+        <wa-button
+          slot="trigger"
+          id="btn-export-toggle"
+          appearance="outlined"
+          class="export-trigger"
+          disabled
+        >
+          Export
+          <wa-icon slot="end" name="chevron-down" label=""></wa-icon>
+        </wa-button>
+        <wa-dropdown-item id="btn-export" disabled>Save session JSON…</wa-dropdown-item>
+        <wa-dropdown-item id="btn-svg" disabled>Save wall SVG…</wa-dropdown-item>
+      </wa-dropdown>
+
+      <wa-button id="btn-clear" appearance="outlined">Reset saved session</wa-button>
+      <input type="file" id="file-import" accept="application/json,.json" hidden />
+    </section>
+
+    <div class="panels">
+      <section class="panel params-panel">
+        <h2>Params</h2>
+        <div class="fields">
+          <label>
+            <span class="field-label">Gap</span>
+            <input type="number" id="gap" min="0" step="1" value="2" />
+          </label>
+          <label>
+            <span class="field-label">Wall width <span class="hint">(0 = none)</span></span>
+            <input type="number" id="wall-width" min="0" step="1" value="0" />
+          </label>
+          <label>
+            <span class="field-label">Wall height</span>
+            <input type="number" id="wall-height" min="0" step="1" value="0" />
+          </label>
+        </div>
+        <div id="items-editor-wrap" class="items-editor-wrap">
+          <div id="items-editor" class="items-editor">
+            <div class="editor-tabs" role="tablist" aria-label="Items editor">
+              <button type="button" class="editor-tab" data-tab="form" role="tab" aria-selected="true">
+                Form
+              </button>
+              <button type="button" class="editor-tab" data-tab="json" role="tab" aria-selected="false">
+                JSON
+              </button>
+            </div>
+
+            <div id="panel-form" class="editor-panel form-panel" role="tabpanel">
+              <div id="frame-form" class="frame-form">
+                <div class="frame-section frame-section-centerpiece">
+                  <div class="frame-section-label">Centerpiece</div>
+                  <div class="frame-header frame-header-centerpiece">
+                    <span>Shape</span>
+                    <span>Height</span>
+                    <span>Width</span>
+                  </div>
+                  <div class="centerpiece-fields frame-row"></div>
+                </div>
+
+                <div class="frame-section frame-section-satellites">
+                  <div class="frame-section-label frame-section-label-action">
+                    <span>Satellite frames</span>
+                    <button type="button" id="btn-add-batch" class="add-batch">Add frame type</button>
+                  </div>
+                  <div class="satellite-table">
+                    <div class="frame-header frame-header-satellite">
+                      <span>Shape</span>
+                      <span>Copies</span>
+                      <span>Height</span>
+                      <span>Width</span>
+                      <span class="frame-header-action" aria-hidden="true"></span>
+                    </div>
+                    <div class="batch-list"></div>
+                  </div>
+                </div>
+
+                <p class="frame-summary"></p>
+              </div>
+            </div>
+
+            <div id="panel-json" class="editor-panel json-panel" role="tabpanel" hidden>
+              <label class="json-editor">
+                <span class="field-label">Items array</span>
+                <textarea id="params-json" spellcheck="false"></textarea>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <h2>Preview</h2>
+        <div id="preview" class="preview"></div>
+        <div class="preview-footer wa-stack wa-gap-s">
+          <div id="stats" class="stats"></div>
+          <div id="status" class="status" role="status"></div>
+        </div>
+      </section>
+    </div>
+
+    <script src="/wasm_exec.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
