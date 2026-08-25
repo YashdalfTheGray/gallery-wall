@@ -153,7 +153,7 @@ function showResult(params: Params, result: Result): void {
 }
 
 async function loadDemo(): Promise<void> {
-  const res = await fetch("/presets/twentyfive.json");
+  const res = await fetch(`${import.meta.env.BASE_URL}presets/twentyfive.json`);
   const params = (await res.json()) as Params;
   applyParams(params);
   setStatus(`Loaded 25-frame sample. Click Arrange frames.`);

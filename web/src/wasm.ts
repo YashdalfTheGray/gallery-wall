@@ -21,9 +21,14 @@ export function initLayoutWasm(): Promise<void> {
   return ready;
 }
 
+function publicAsset(path: string): string {
+  const base = import.meta.env.BASE_URL;
+  return `${base}${path.replace(/^\//, "")}`;
+}
+
 async function loadWasm(): Promise<void> {
   const go = new Go();
-  const response = await fetch("/layout.wasm");
+  const response = await fetch(publicAsset("layout.wasm"));
   const bytes = await response.arrayBuffer();
   const { instance } = await WebAssembly.instantiate(bytes, go.importObject);
   go.run(instance);

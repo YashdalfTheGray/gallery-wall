@@ -10,8 +10,8 @@
         matchMedia("(prefers-color-scheme: dark)").matches ? "wa-dark" : "wa-light",
       );
     </script>
-    <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="/src/brand.css" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="./src/brand.css" />
   </head>
   <body>
     <header class="page-header wa-stack wa-gap-2xs">
@@ -134,7 +134,7 @@
       </section>
     </div>
 
-    <script src="/wasm_exec.js"></script>
-    <script type="module" src="/src/main.ts"></script>
+    <script src="%BASE_URL%wasm_exec.js"></script>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
