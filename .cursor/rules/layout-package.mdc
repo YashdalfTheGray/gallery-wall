@@ -1,0 +1,66 @@
+---
+description: Go layout package architecture, API, and conventions
+globs: layout/**/*
+alwaysApply: false
+---
+
+# layout package
+
+Standalone module at `layout/go.mod`. Zero third-party deps.
+
+## Entry points
+
+```go
+func Layout(params Params) (Result, error)
+func Validate(params Params) error
+```
+
+## Source map
+
+| File | Responsibility |
+|------|----------------|
+| `types.go` | `Shape`, `Item`, `Params`, `Bounds` |
+| `validate.go` | Structural validation + wall validation |
+| `wall.go` | `WallBounds()`, `footprintFitsWall`, centerpiece-in-wall check |
+| `geometry.go` | `Footprint`, shape-aware bbox/collision geometry |
+| `collision.go` | `Collides` with gap |
+| `adjacency.go` | `Adjacent` — connectivity within gap |
+| `placed.go` | `PlacedItem`, `Cluster`, `Bounds()` |
+| `order.go` | Centerpiece find, sort (area ↓, max side ↓, id ↑), anchor at origin |
+| `candidates.go` | Perimeter + corner attachment, 1-unit slide, dedupe, wall filter |
+| `score.go` | w1–w5 weighted score, `BestCandidate` |
+| `layout.go` | Orchestrator: validate → anchor → place loop → `buildResult` |
+| `result.go` | `Result`, `PlacedResult`, `Anchor` JSON types |
+| `output.go` | Top-left coords, direction, `adjacentIDsFor` |
+| `errors.go` | `ValidationError`, `PlacementError`, `IsValidationCode`, `IsPlacementCode` |
+| `quality.go` | Regression helpers: aspect ratio, hull fill, neighbor checks |
+| `doc.go` | Package godoc |
+
+## Params & wall
+
+- `Gap` (required): minimum separation between frames.
+- `WallWidth` / `WallHeight` (optional): both must be > 0 or both omitted/zero. Wall is centered on anchor; candidates and placements must fit inside.
+- Validation codes include `invalid_wall`, `centerpiece_exceeds_wall`.
+
+## Placement loop
+
+1. `Validate(params)`
+2. Anchor centerpiece at `(0, 0)`
+3. Sort remaining items
+4. For each item: `GenerateCandidates` → filter collisions/floaters/wall → `BestCandidate` → append to cluster
+5. `buildResult` with bounds and hanging helpers
+
+## Testing
+
+```bash
+go test .                              # from layout/
+go test ./layout/...                   # from repo root (needs go.work)
+go test -run Golden -v                 # golden JSON in testdata/
+go test -run Example -v                # godoc examples
+```
+
+Golden fixtures: `testdata/centerpiece_*`, `twentyfive_*`. Regenerate carefully — positions are deterministic but scoring tweaks change output.
+
+## External consumers
+
+Documented in `layout/README.md`. Release tags: `layout/vX.Y.Z` on the parent repo.

@@ -1,0 +1,71 @@
+---
+description: Web app, WASM bridge, and frontend conventions
+globs: web/**/*,wasm/**/*,scripts/**/*
+alwaysApply: false
+---
+
+# Web app & WASM
+
+Static single-page app — **no backend**. Layout runs in-browser via Go WASM.
+
+## Build & dev
+
+```bash
+./scripts/build-wasm.sh          # → web/public/layout.wasm + wasm_exec.js
+cd web && npm install && npm run dev   # port 5173; predev rebuilds WASM
+cd web && npm run build          # → web/dist/ (base "/")
+VITE_BASE=/gallery-wall/ npm run build  # GitHub Pages project site
+```
+
+CI: `.github/workflows/pr.yml` (PR checks) and `.github/workflows/pages.yml` (deploy `web/dist` on `main`).
+
+Root module imports `github.com/yashdalfthegray/gallery-wall/layout` (local replace). WASM build: `GOOS=js GOARCH=wasm go build -o web/public/layout.wasm ./wasm`.
+
+## WASM bridge (`wasm/main.go`)
+
+- Registers global `goLayout(paramsJsonString)` → JSON `{ ok, result?, error?, message? }`.
+- Typed errors mirror `ValidationError` / `PlacementError` codes for the UI.
+
+## Frontend structure (`web/src/`)
+
+| File | Role |
+|------|------|
+| `main.ts` | Boot, toolbar actions, layout run, session restore |
+| `wasm.ts` | Load WASM, call `goLayout` |
+| `types.ts` | `Params`, `Result`, `SessionState` (mirrors Go JSON) |
+| `storage.ts` | Form ↔ params, localStorage session, import/export JSON |
+| `editor-storage.ts` | Separate localStorage for frame editor UI state |
+| `frame-editor.ts` | Editor model: centerpiece + satellite batches with copy counts |
+| `frame-editor-ui.ts` | DOM for shape/height/width/copies rows |
+| `items-editor.ts` | Form ↔ JSON tab sync, custom tab buttons (not `wa-tab-group`) |
+| `svg.ts` | Preview SVG + export; two-pass render (shapes then labels) |
+| `random.ts` | Random 5–20 frame generator |
+| `webawesome.ts` | Theme init, component side-effect imports |
+| `style.css` | Layout; imports Web Awesome CSS; `wa-cloak` FOUC fix |
+
+## UI panels
+
+- **Params:** gap, optional wall width/height (0 = none), frame editor (Form | JSON tabs).
+- **Preview:** SVG cluster + stats KV table (frames/gap/cluster size | anchor/bounds) + status line at bottom.
+
+## Frame editor model
+
+- **Centerpiece:** one row — shape, height, width.
+- **Satellites:** batch rows — shape, copies, height, width, remove (×).
+- `editorModelToItems()` expands batches into flat `Item[]` with generated IDs before layout.
+
+## Persistence
+
+- `localStorage` autosave: params + last result (`storage.ts`).
+- Import/export: `gallery-wall-state.json`.
+- Presets: `web/public/presets/twentyfive.json`.
+
+## SVG preview notes
+
+- Centerpiece-relative coords; symmetric padding; measure labels on second pass.
+- Shape colors: rects peach/sky by orientation; ellipses gold/rose; circles green.
+- Export SVG includes multi-line footer with inline fills for standalone files.
+
+## Dev visualization
+
+`cmd/gallery-svg/` reads a **result** JSON (not params) and writes SVG — used for `layout/testdata/twentyfive_diagram.svg`.
