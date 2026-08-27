@@ -98,9 +98,13 @@ function frameShapeSVG(item: PlacedResult, b: Result["bounds"], exportMode: bool
   const w = item.width * SCALE;
   const h = item.height * SCALE;
   const shapeClass = frameClass(item);
-  const { fill, stroke, sw } = exportMode ? exportFrameColors(item) : { fill: "", stroke: "", sw: 0 };
+  const { fill, stroke, sw } = exportMode
+    ? exportFrameColors(item)
+    : { fill: "", stroke: "", sw: 0 };
 
-  const strokeAttr = exportMode ? `stroke="${stroke}" stroke-width="${sw}"` : `stroke-width="${frameStrokeWidth(item)}"`;
+  const strokeAttr = exportMode
+    ? `stroke="${stroke}" stroke-width="${sw}"`
+    : `stroke-width="${frameStrokeWidth(item)}"`;
   const fillAttr = exportMode ? `fill="${fill}"` : "";
 
   if (item.shape === "circle") {

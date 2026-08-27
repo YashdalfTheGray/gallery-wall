@@ -1,8 +1,4 @@
-import {
-  clearEditorState,
-  loadEditorState,
-  saveEditorState,
-} from "./editor-storage";
+import { clearEditorState, loadEditorState, saveEditorState } from "./editor-storage";
 import {
   type FrameEditorModel,
   type ItemsEditorTab,

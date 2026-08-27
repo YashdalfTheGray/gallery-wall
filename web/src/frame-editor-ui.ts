@@ -32,7 +32,9 @@ export class FrameEditorUI {
   render(model: FrameEditorModel): void {
     this.renderCenterpiece(model.centerpiece);
     this.batchListEl.innerHTML = "";
-    model.batches.forEach((batch, index) => this.batchListEl.appendChild(this.createBatchRow(batch, index)));
+    model.batches.forEach((batch, index) =>
+      this.batchListEl.appendChild(this.createBatchRow(batch, index)),
+    );
     this.updateSummary(model);
   }
 
@@ -211,7 +213,11 @@ function widthCell(id: string, shape: Shape, value: number, onChange: () => void
   return cell;
 }
 
-function readDimensions(root: ParentNode, prefix: string, shape: Shape): { height: number; width: number } {
+function readDimensions(
+  root: ParentNode,
+  prefix: string,
+  shape: Shape,
+): { height: number; width: number } {
   const height = readNumber(root, `${prefix}-height`, 10);
   if (usesSingleSize(shape)) {
     return { height, width: height };
