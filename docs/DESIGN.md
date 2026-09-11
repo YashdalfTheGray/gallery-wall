@@ -2,59 +2,55 @@
 
 ## Overview
 
-This project lays out a physical gallery wall: a collection of frames of varying sizes and shapes, arranged organically around a single **centerpiece**. The centerpiece is the visual and geometric anchor; all other frames attach to form one connected cluster that reads as a cohesive blob—not a scattered collage.
+This project lays out a physical gallery wall. Frames vary in size and shape. One frame is the centerpiece. The centerpiece is the visual and geometric anchor. All other frames attach to form one connected cluster.
 
-The core is a **Go library** (`layout` package), heavily tested and published as a standalone module. A **TypeScript/Vite web app** runs the same library in the browser via WASM.
+The core is a Go library (`layout` package). It is published as a standalone module. A TypeScript and Vite web app runs the same library in the browser via WASM.
 
-**Current architecture:** [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) · **Implementation walkthrough:** [`layout/ALGORITHM.md`](../layout/ALGORITHM.md)
-
----
+Current architecture: [ARCHITECTURE.md](ARCHITECTURE.md). Implementation walkthrough: [layout/ALGORITHM.md](../layout/ALGORITHM.md).
 
 ## Scope
 
 ### In scope (v1)
 
-- Pure layout algorithm: positions for N frames from specs + gap
+- Pure layout algorithm: positions for N frames from specs and gap
 - Validation of structural input (IDs, centerpiece count, positive dimensions)
 - Shape-aware collision detection
-- Connected, organic blob placement centered on the centerpiece
-- Optional wall bounding box (`wallWidth` + `wallHeight`, centered on anchor)
-- Output optimized for humans hanging a real wall
+- Connected blob placement centered on the centerpiece
+- Optional wall bounding box (`wallWidth` and `wallHeight`, centered on anchor)
+- Output for humans who hang a real wall
 - Browser WASM bridge and static web UI (implemented in this repo)
 
 ### Out of scope (v1)
 
 - HTTP API server
-- Unit conversion (inches vs cm vs abstract)
-- Rotation (all frames axis-aligned)
+- Unit conversion (inches, cm, or abstract)
+- Rotation (all frames are axis-aligned)
 - Drag-and-drop editing on the preview canvas
 - Image rendering inside frames
-
----
 
 ## Input
 
 ### Item
 
-Each frame is described by:
+Each frame has these fields:
 
-| Field         | Type    | Required | Description                                      |
-|---------------|---------|----------|--------------------------------------------------|
-| `id`          | string  | yes      | Stable identifier, unique within the input set   |
-| `height`      | int     | yes      | Bounding box height (> 0)                        |
-| `width`       | int     | yes      | Bounding box width (> 0)                         |
-| `shape`       | enum    | yes      | `square`, `rectangle`, `circle`, `ellipse`       |
-| `centerpiece` | bool    | yes      | Exactly one item must be `true`                  |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Stable identifier, unique in the input set |
+| `height` | int | yes | Bounding box height (> 0) |
+| `width` | int | yes | Bounding box width (> 0) |
+| `shape` | enum | yes | `square`, `rectangle`, `circle`, `ellipse` |
+| `centerpiece` | bool | yes | Exactly one item must be `true` |
 
-**Dimensions are the source of truth.** The `shape` field controls collision geometry and rendering; it is not validated against dimensions. The UI may warn users about mismatches (e.g. `square` with 10×12), but the library accepts any positive h×w.
+Dimensions are the source of truth. The `shape` field controls collision geometry and rendering. The library does not validate shape against dimensions. The UI may warn about mismatches (for example `square` with 10×12). The library accepts any positive height and width.
 
 ### Layout parameters
 
-| Field | Type | Required | Default | Description                          |
-|-------|------|----------|---------|--------------------------------------|
-| `gap` | int  | yes      | —       | Minimum separation between frames    |
-| `wallWidth` | float | no | 0 (none) | Wall width; both wall fields required if either is set |
-| `wallHeight` | float | no | 0 (none) | Wall height; cluster must fit inside |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `gap` | int | yes | — | Minimum separation between frames |
+| `wallWidth` | float | no | 0 (none) | Wall width. Both wall fields are required if either is set. |
+| `wallHeight` | float | no | 0 (none) | Wall height. The cluster must fit inside. |
 
 Wall bounds are centered on the anchor `(0, 0)`. Omit or zero both dimensions for unbounded placement.
 
@@ -75,36 +71,33 @@ All numeric values share the same implicit unit (inches, cm, or abstract). The l
 }
 ```
 
----
-
 ## Output
 
-All positions are **relative to the centerpiece anchor**: the geometric center of the centerpiece frame is `(0, 0)`. Negative coordinates mean left of or above the centerpiece center; positive means right of or below.
+All positions are relative to the centerpiece anchor. The geometric center of the centerpiece frame is `(0, 0)`. Negative coordinates mean left of or above the centerpiece center. Positive means right of or below.
 
 ### Per-item output
 
-| Field              | Type   | Description                                                |
-|--------------------|--------|------------------------------------------------------------|
-| `id`               | string | Same as input                                              |
-| `centerX`          | float  | Horizontal offset of frame center from centerpiece center  |
-| `centerY`          | float  | Vertical offset of frame center from centerpiece center    |
-| `x`                | float  | Top-left X of bounding box (derived: `centerX - width/2`)  |
-| `y`                | float  | Top-left Y of bounding box (derived: `centerY - height/2`) |
-| `width`            | int    | Echoed from input                                          |
-| `height`           | int    | Echoed from input                                          |
-| `shape`            | enum   | Echoed from input                                          |
-| `offsetFromAnchor` | float  | Distance from frame center to centerpiece center           |
-| `direction`        | string | Compass label from centerpiece to frame (`N`, `NE`, `E`, …) |
-| `adjacentIds`      | string[] | IDs of frames adjacent within `gap` (connectivity helpers) |
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Same as input |
+| `centerX` | float | Horizontal offset of frame center from centerpiece center |
+| `centerY` | float | Vertical offset of frame center from centerpiece center |
+| `x` | float | Top-left X of bounding box (derived: `centerX - width/2`) |
+| `y` | float | Top-left Y of bounding box (derived: `centerY - height/2`) |
+| `width` | int | Echoed from input |
+| `height` | int | Echoed from input |
+| `shape` | enum | Echoed from input |
+| `offsetFromAnchor` | float | Distance from frame center to centerpiece center |
+| `direction` | string | Compass label from centerpiece to frame (`N`, `NE`, `E`, …) |
+| `adjacentIds` | string[] | IDs of frames adjacent within `gap` |
 
-Additional hanging helpers may be added as long as they derive from the core positions.
+Additional hanging helpers may be added if they derive from the core positions.
 
 ### Layout metadata
 
-| Field    | Type   | Description                                      |
-|----------|--------|--------------------------------------------------|
-| `bounds` | object | Axis-aligned bounding box of the full cluster    |
-|          |        | `{ minX, minY, maxX, maxY }` in centerpiece-relative coords |
+| Field | Type | Description |
+|-------|--------|-------------|
+| `bounds` | object | Axis-aligned bounding box of the full cluster: `{ minX, minY, maxX, maxY }` in centerpiece-relative coordinates |
 
 ### Example output
 
@@ -141,55 +134,48 @@ Additional hanging helpers may be added as long as they derive from the core pos
 }
 ```
 
----
-
 ## Coordinate system
 
 ### Anchor
 
-- The **centerpiece center** is the origin `(0, 0)`.
-- +X = right, +Y = down (canvas / screen convention, matches typical frontend rendering).
+The centerpiece center is the origin `(0, 0)`. +X is right. +Y is down (canvas and screen convention, matches typical frontend rendering).
 
 ### Internal vs output
 
-During placement, the algorithm works entirely in centerpiece-relative space. Negative coordinates are valid and expected (frames above or to the left of the centerpiece). No global shift is applied to force all coordinates positive—doing so would obscure the natural "measure from the focal piece" semantics.
+During placement, the algorithm works in centerpiece-relative space. Negative coordinates are valid (frames above or left of the centerpiece). No global shift forces all coordinates positive. That would hide measure-from-centerpiece semantics.
 
-If internal intermediate math ever benefits from a temporary translation (e.g. spatial indexing), that translation is discarded before output. **Output is always centerpiece-relative.**
+If internal math uses a temporary translation, discard it before output. Output is always centerpiece-relative.
 
 ### Hanging interpretation
 
-A human installer workflow:
+Installer workflow:
 
-1. Mark the centerpiece center on the wall (e.g. at eye level, centered on the wall).
-2. For each other frame, measure horizontally and vertically from that mark to the frame's center (`centerX`, `centerY`).
-3. Use `width`/`height` to align the frame around that center point.
-
----
+1. Mark the centerpiece center on the wall (for example at eye level, centered on the wall).
+2. For each other frame, measure horizontally and vertically from that mark to the frame center (`centerX`, `centerY`).
+3. Use `width` and `height` to align the frame around that center point.
 
 ## Shape geometry
 
-Dimensions always define an axis-aligned bounding box (AABB). Shape determines the **collision footprint** within that box:
+Dimensions define an axis-aligned bounding box (AABB). Shape determines the collision footprint within that box:
 
-| Shape       | Collision geometry                                              |
-|-------------|-----------------------------------------------------------------|
-| `rectangle` | Solid axis-aligned rectangle h×w                                |
-| `square`    | Same as rectangle (label is cosmetic)                           |
-| `circle`    | Circle inscribed in bbox: diameter = `min(height, width)`, centered in bbox |
-| `ellipse`   | Ellipse inscribed in bbox: semi-axes `height/2`, `width/2`      |
+| Shape | Collision geometry |
+|-------|-------------------|
+| `rectangle` | Solid axis-aligned rectangle h×w |
+| `square` | Same as rectangle (label is cosmetic) |
+| `circle` | Circle inscribed in bbox: diameter = `min(height, width)`, centered in bbox |
+| `ellipse` | Ellipse inscribed in bbox: semi-axes `height/2`, `width/2` |
 
 ### Collision with gap
 
-Two frames collide if their shape-aware footprints, each expanded outward by `gap/2`, overlap. For v1:
+Two frames collide if their shape-aware footprints overlap after each is expanded outward by `gap/2`. For v1:
 
-- **Rectangles:** standard AABB separation test with gap padding on all sides.
-- **Circles:** center distance < `r1 + r2 + gap`.
-- **Ellipses:** conservative test using inflated AABB (ellipse bbox + gap). Exact ellipse-ellipse overlap may be added later if inflated AABB proves too loose.
+- Rectangles: AABB separation test with gap padding on all sides.
+- Circles: center distance < `r1 + r2 + gap`.
+- Ellipses: conservative test using inflated AABB (ellipse bbox + gap). Exact ellipse-ellipse overlap may be added later if inflated AABB is too loose.
 
 ### Adjacency (connectivity)
 
-Two frames are **adjacent** (connected) if they do not overlap but the gap between their footprints is ≤ `gap` (i.e. they touch within the allowed margin). Connectivity is evaluated on shape-aware geometry, not raw bbox overlap alone.
-
----
+Two frames are adjacent if they do not overlap and the gap between footprints is ≤ `gap`. Connectivity uses shape-aware geometry, not raw bbox overlap alone.
 
 ## Layout algorithm
 
@@ -213,75 +199,73 @@ Layout(items, gap) → LayoutResult | error
 
 ### Step 1 — Validate
 
-| Rule                              | Error                          |
-|-----------------------------------|--------------------------------|
-| `len(items) == 0`                 | `empty input`                  |
-| Duplicate IDs                     | `duplicate id: {id}`           |
-| Any `height <= 0` or `width <= 0` | `invalid dimensions: {id}`     |
-| Zero centerpieces                 | `no centerpiece specified`     |
-| Multiple centerpieces             | `multiple centerpieces: {ids}` |
-| Only one of `wallWidth` / `wallHeight` set | `invalid_wall`          |
-| Centerpiece footprint exceeds wall | `centerpiece_exceeds_wall`    |
+| Rule | Error |
+|------|-------|
+| `len(items) == 0` | `empty input` |
+| Duplicate IDs | `duplicate id: {id}` |
+| Any `height <= 0` or `width <= 0` | `invalid dimensions: {id}` |
+| Zero centerpieces | `no centerpiece specified` |
+| Multiple centerpieces | `multiple centerpieces: {ids}` |
+| Only one of `wallWidth` / `wallHeight` set | `invalid_wall` |
+| Centerpiece footprint exceeds wall | `centerpiece_exceeds_wall` |
 
-No validation of shape vs dimensions.
+The library does not validate shape against dimensions.
 
 ### Step 2 — Anchor centerpiece
 
-- Place centerpiece at `centerX = 0, centerY = 0`.
-- Initialize `placed = [centerpiece]`.
-- Initialize `cluster` geometry from centerpiece footprint.
+Place the centerpiece at `centerX = 0, centerY = 0`. Initialize `placed` with the centerpiece. Initialize cluster geometry from the centerpiece footprint.
 
 ### Step 3 — Placement order
 
-Remaining items are sorted before placement:
+Sort remaining items before placement:
 
-1. **Area descending** (`height × width`) — large frames establish the blob skeleton.
-2. **Max side descending** (`max(height, width)`) — tiebreaker.
-3. **ID ascending** — deterministic tiebreaker for tests.
+1. Area descending (`height × width`). Large frames establish the blob skeleton.
+2. Max side descending (`max(height, width)`). Tiebreaker.
+3. ID ascending. Deterministic tiebreaker for tests.
 
-The centerpiece is never reordered; it is already placed.
+The centerpiece is never reordered. It is already placed.
 
 ### Step 4 — Candidate generation
 
-For each unplaced item `P`, generate candidate positions by attaching to the **perimeter** of the current cluster.
+For each unplaced item `P`, generate candidate positions by attaching to the perimeter of the current cluster.
 
-**Perimeter attachment** means: `P` is placed so that it is adjacent (within `gap`) to at least one already-placed item, and `P` does not overlap any placed item.
+Perimeter attachment means `P` is adjacent (within `gap`) to at least one placed item and does not overlap any placed item.
 
 #### 4a — Find attachment edges
 
 For each placed item `A`, enumerate candidate positions for `P` along each side of `A`:
 
-- **Left of A:** `P.centerX = A.centerX - (A.width/2 + gap + P.width/2)` (adjusted for shape geometry)
-- **Right of A:** symmetric
-- **Above A:** `P.centerY = A.centerY - (A.height/2 + gap + P.height/2)`
-- **Below A:** symmetric
+- Left of A: `P.centerX = A.centerX - (A.width/2 + gap + P.width/2)` (adjusted for shape geometry)
+- Right of A: symmetric
+- Above A: `P.centerY = A.centerY - (A.height/2 + gap + P.height/2)`
+- Below A: symmetric
 
-For circles and ellipses, use the shape-aware footprint radius/extents instead of raw bbox half-sides when computing attachment offsets.
+For circles and ellipses, use shape-aware footprint radius or extents instead of raw bbox half-sides.
 
-Also generate **corner attachments** (diagonal of two sides) to allow L-shaped cluster growth and smoother blob silhouettes.
+Also generate corner attachments (diagonal of two sides) for L-shaped growth and smoother silhouettes.
 
-Slide along each attachment edge in discrete steps (**step size = 1 unit**, fixed) to produce a set of candidate center positions.
+Slide along each attachment edge in steps of 1 unit to produce candidate center positions.
 
 #### 4b — Filter
 
 Remove any candidate where:
 
 - `P` overlaps any placed item (shape-aware collision with gap), or
-- `P` is not adjacent to at least one placed item (would be a floater)
+- `P` is not adjacent to at least one placed item (floater)
 
 #### 4c — Score
 
-Among surviving candidates, compute a score (lower = better). Weighted sum of:
+Among surviving candidates, compute a score. Lower is better. Weighted sum of:
 
-| Component              | Weight | Description                                                                 |
-|------------------------|--------|-----------------------------------------------------------------------------|
-| **Compactness**        | w1     | Minimize average distance from `P.center` to centerpiece center             |
-| **Balance**            | w2     | Prefer positions that reduce asymmetry of total placed area across quadrants relative to centerpiece (left vs right, above vs below) |
-| **Blob smoothness**    | w3     | Penalize candidates that create long thin protrusions or push cluster aspect ratio `(max spread X) / (max spread Y)` away from a **wide-round target (~1.3–1.6)** — mostly round, but wider than tall, matching typical walls |
-| **Concavity penalty**  | w4     | Penalize positions that create deep inward bays in the cluster silhouette (measured via convex hull area vs actual cluster bbox area ratio) |
-| **Local continuity**   | w5     | Reward candidates that are adjacent to 2+ placed items (fills gaps, reduces comb-like shapes) |
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Compactness | w1 | Minimize average distance from `P.center` to centerpiece center |
+| Balance | w2 | Reduce asymmetry of placed area across quadrants relative to centerpiece |
+| Blob smoothness | w3 | Penalize long thin protrusions; target cluster aspect ~1.3–1.6 (wider than tall) |
+| Concavity penalty | w4 | Penalize deep inward bays (convex hull area vs cluster bbox area) |
+| Local continuity | w5 | Reward candidates adjacent to 2+ placed items |
 
-Initial weight proposal (tuned during testing):
+Initial weights (tuned during testing):
 
 ```
 w1 = 1.0   compactness
@@ -291,13 +275,11 @@ w4 = 0.5   concavity
 w5 = 0.4   local continuity (reward → subtract from score)
 ```
 
-Exact weights are implementation constants, adjustable via tests against golden fixtures.
+Exact weights are implementation constants. Adjust via tests against golden fixtures.
 
 #### 4d — Place
 
-- Select the lowest-scoring candidate.
-- Add `P` to `placed`.
-- Update cluster geometry (union of all footprints + gap margin).
+Select the lowest-scoring candidate. Add `P` to `placed`. Update cluster geometry.
 
 #### 4e — Failure
 
@@ -307,39 +289,28 @@ If no candidate survives filtering for item `P`:
 error: cannot place item "{id}" — no valid connected position
 ```
 
-There is no fallback (no dropping items, no disconnected placement).
+There is no fallback. The library does not drop items or place disconnected frames.
 
 ### Step 5 — Output
 
-For each placed item:
-
-- Emit `centerX`, `centerY` (centerpiece-relative)
-- Derive `x`, `y` (top-left of bbox)
-- Compute `offsetFromAnchor`, `direction`
-- Echo `width`, `height`, `shape`, `id`
-
-Compute cluster `bounds` from the union of all item bboxes.
-
----
+For each placed item, emit `centerX`, `centerY`, derived `x`, `y`, `offsetFromAnchor`, `direction`, and echo `width`, `height`, `shape`, `id`. Compute cluster `bounds` from the union of all item bboxes.
 
 ## Algorithm properties
 
-| Property        | Guarantee                                                |
-|-----------------|----------------------------------------------------------|
-| Centerpiece     | Always at `(0, 0)`                                       |
-| Connectivity    | Every non-centerpiece item adjacent to ≥1 placed item    |
-| No overlap      | All pairs satisfy shape-aware collision with `gap`       |
-| Determinism     | Same input → same output (fixed sort + tiebreak rules)   |
-| Failure         | Explicit error if any item cannot be placed              |
-
----
+| Property | Guarantee |
+|----------|-----------|
+| Centerpiece | Always at `(0, 0)` |
+| Connectivity | Every non-centerpiece item is adjacent to ≥1 placed item |
+| No overlap | All pairs satisfy shape-aware collision with `gap` |
+| Determinism | Same input → same output (fixed sort and tiebreak rules) |
+| Failure | Explicit error if any item cannot be placed |
 
 ## Go package structure
 
 ```
 layout/                         (nested module: github.com/.../gallery-wall/layout)
   types.go          Item, Shape, Params, Bounds
-  validate.go       input + wall validation
+  validate.go       input and wall validation
   wall.go           wall bounds helpers
   geometry.go       footprints, bbox
   collision.go      shape-aware collision with gap
@@ -351,7 +322,7 @@ layout/                         (nested module: github.com/.../gallery-wall/layo
   layout.go         Layout() entry point
   result.go         Result, PlacedResult, Anchor
   output.go         top-left coords, direction, adjacent IDs
-  errors.go         typed validation/placement errors
+  errors.go         typed validation and placement errors
   quality.go        regression metrics (aspect, hull fill, neighbors)
   doc.go            package documentation
   ALGORITHM.md      implementation walkthrough
@@ -370,15 +341,13 @@ func Validate(params Params) error
 
 External install: `go get github.com/yashdalfthegray/gallery-wall/layout@v1.0.0`
 
----
-
 ## Test plan
 
 ### Validation tests
 
 - Empty input → error
 - Duplicate IDs → error
-- Zero / negative dimensions → error
+- Zero or negative dimensions → error
 - Zero or multiple centerpieces → error
 
 ### Geometry tests
@@ -390,23 +359,21 @@ External install: `go get github.com/yashdalfthegray/gallery-wall/layout@v1.0.0`
 
 ### Layout tests
 
-| Fixture                    | Asserts                                              |
-|----------------------------|------------------------------------------------------|
-| Single centerpiece only    | At origin, bounds match dimensions                   |
-| Centerpiece + 1 item       | Adjacent, no overlap, balanced placement             |
-| Centerpiece + 2 symmetric  | Roughly mirrored placement                           |
-| Mixed sizes (1 large + 6 small) | Connected cluster, no floaters, compact blob    |
-| Golden regression          | Fixed input → exact positions (JSON fixture)         |
-| Unplaceable item           | Returns error with item ID                           |
-| Gap sensitivity            | gap=2 vs gap=6 produces wider spacing                |
+| Fixture | Asserts |
+|---------|---------|
+| Single centerpiece only | At origin, bounds match dimensions |
+| Centerpiece + 1 item | Adjacent, no overlap, balanced placement |
+| Centerpiece + 2 symmetric | Roughly mirrored placement |
+| Mixed sizes (1 large + 6 small) | Connected cluster, no floaters, compact blob |
+| Golden regression | Fixed input → exact positions (JSON fixture) |
+| Unplaceable item | Returns error with item ID |
+| Gap sensitivity | gap=2 vs gap=6 produces wider spacing |
 
 ### Blob quality tests (heuristic)
 
 - Cluster convex hull fill ratio above a minimum threshold for standard fixtures
 - No placed item farther from centerpiece than `2×` the largest item's max side (configurable sanity bound for tests)
 - Every non-centerpiece item has ≥1 adjacent neighbor
-
----
 
 ## Future extensions
 
@@ -416,12 +383,10 @@ External install: `go get github.com/yashdalfthegray/gallery-wall/layout@v1.0.0`
 - HTTP API wrapping `Layout()`
 - Hanging guide PDF (cut sheet with measurements from anchor)
 
----
-
 ## Locked implementation preferences
 
-| Preference            | Decision                                                                 |
-|-----------------------|--------------------------------------------------------------------------|
-| Target silhouette     | Mostly round blob, **wider than tall** (typical wall proportions)        |
-| Attachment step size  | **1 unit** (precise candidate search)                                    |
-| Agent context         | [`.cursor/rules/`](../.cursor/rules/) and [`AGENTS.md`](../AGENTS.md)     |
+| Preference | Decision |
+|------------|----------|
+| Target silhouette | Mostly round blob, wider than tall (typical wall proportions) |
+| Attachment step size | 1 unit (precise candidate search) |
+| Agent context | [.cursor/rules/](../.cursor/rules/) and [AGENTS.md](../AGENTS.md) |
