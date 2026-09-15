@@ -1,4 +1,4 @@
-// Package layout arranges gallery-wall frames organically around a centerpiece.
+// Package layout places gallery-wall frames around a centerpiece.
 //
 // Install as a standalone module:
 //
@@ -9,8 +9,8 @@
 // Algorithm walkthrough: see ALGORITHM.md in this directory.
 //
 // The centerpiece is anchored at (0, 0). All other frames attach edge-to-edge
-// (with a configurable gap) to form one connected cluster—a compact blob
-// suitable for hanging on a real wall.
+// with a configurable gap to form one connected cluster suitable for hanging
+// on a real wall.
 //
 // # Entry point
 //

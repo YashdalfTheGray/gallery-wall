@@ -1,6 +1,6 @@
 # Gallery Wall — Web
 
-Static app: layout runs in the browser via Go WASM. No server required after build.
+This static app runs the layout engine in the browser via Go WASM. No server is required after build.
 
 ## Dev
 
@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-Opens Vite on port 5173. WASM is rebuilt automatically via `predev`.
+Vite opens port 5173. The `predev` script rebuilds WASM.
 
 ## Production build
 
@@ -19,7 +19,7 @@ cd web
 npm run build
 ```
 
-Output in `web/dist/`.
+Output is in `web/dist/`.
 
 For GitHub Pages (project site under `/gallery-wall/`):
 
@@ -27,18 +27,18 @@ For GitHub Pages (project site under `/gallery-wall/`):
 VITE_BASE=/gallery-wall/ npm run build
 ```
 
-Local `vite` / default `npm run build` use `base: "/"` so assets resolve at the site root.
+Local `vite` and default `npm run build` use `base: "/"`. Assets resolve at the site root.
 
 ## Features
 
-- **Layout engine** — Go `layout` package compiled to WASM (`goLayout` global)
-- **Frame editor** — Form tab (centerpiece + satellite batches with copy counts) or raw JSON tab
-- **Wall bounds** — optional width/height constrain the cluster (0 = unbounded)
-- **Presets** — 25-frame sample (`public/presets/twentyfive.json`), random 5–20 frames
-- **localStorage** — autosaves params + last result between visits
-- **Import / export** — session JSON (`gallery-wall-state.json`), wall SVG download
-- **Preview** — SVG with shape-aware colors, measure labels, stats panel (frames, gap, cluster size, anchor, bounds)
-- **Theme** — Web Awesome light/dark follows system preference
+- Layout engine: Go `layout` package compiled to WASM (`goLayout` global)
+- Frame editor: Form tab (centerpiece and satellite batches with copy counts) or JSON tab
+- Wall bounds: optional width and height constrain the cluster (0 = unbounded)
+- Presets: 25-frame sample (`public/presets/twentyfive.json`), random 5–20 frames
+- localStorage: autosaves params and last result between visits
+- Import and export: session JSON (`gallery-wall-state.json`), wall SVG download
+- Preview: SVG with shape colors, measure labels, stats panel (frames, gap, cluster size, anchor, bounds)
+- Theme: Web Awesome light or dark follows system preference
 
 ## WASM rebuild only
 
@@ -46,8 +46,8 @@ Local `vite` / default `npm run build` use `base: "/"` so assets resolve at the 
 ./scripts/build-wasm.sh
 ```
 
-Writes `web/public/layout.wasm` and `wasm_exec.js` (gitignored; required before dev/build).
+This writes `web/public/layout.wasm` and `wasm_exec.js`. These files are gitignored. Rebuild before dev or build.
 
 ## Source layout
 
-See [`.cursor/rules/web-app.mdc`](../.cursor/rules/web-app.mdc) for module map and conventions.
+See [`.cursor/rules/web-app.mdc`](../.cursor/rules/web-app.mdc) for the module map and conventions.

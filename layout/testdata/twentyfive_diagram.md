@@ -1,6 +1,6 @@
 # Gallery Wall — 25 Frames
 
-Preview from `twentyfive_result.json` (1 unit = 8 px).
+Preview from `twentyfive_result.json`. One unit equals 8 px.
 
 ![Gallery wall layout](twentyfive_diagram.svg)
 

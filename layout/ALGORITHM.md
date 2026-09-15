@@ -1,10 +1,8 @@
 # Layout algorithm
 
-Organic gallery-wall placement: one **centerpiece** at `(0, 0)`, every other frame attaches edge-to-edge (with gap) into a single connected **blob**.
+Organic gallery-wall placement. One centerpiece sits at `(0, 0)`. Every other frame attaches edge-to-edge with gap into one connected blob.
 
-**Entry point:** [`Layout()`](layout.go) · **Spec:** [`docs/DESIGN.md`](../docs/DESIGN.md)
-
----
+Entry point: [`Layout()`](layout.go). Spec: [`docs/DESIGN.md`](../docs/DESIGN.md).
 
 ## Pipeline
 
@@ -23,28 +21,24 @@ flowchart LR
   S -->|none| E2[PlacementError]
 ```
 
----
-
 ## Source map
 
 | Stage        | File                                                | Role                                    |
 | ------------ | --------------------------------------------------- | --------------------------------------- |
 | Types        | [`types.go`](types.go)                              | `Item`, `Params`, `Shape`               |
-| Validate     | [`validate.go`](validate.go)                        | Input + wall checks                     |
+| Validate     | [`validate.go`](validate.go)                        | Input and wall checks                   |
 | Errors       | [`errors.go`](errors.go)                            | Typed error codes                       |
 | Order        | [`order.go`](order.go)                              | Find centerpiece, sort by size          |
 | Geometry     | [`geometry.go`](geometry.go)                        | `Footprint`, bboxes, half-extents       |
 | Collision    | [`collision.go`](collision.go)                      | Overlap test (shape-aware)              |
 | Adjacency    | [`adjacency.go`](adjacency.go)                      | Touching within gap                     |
-| Candidates   | [`candidates.go`](candidates.go)                    | Side + corner attachments, 1-unit slide |
+| Candidates   | [`candidates.go`](candidates.go)                    | Side and corner attachments, 1-unit slide |
 | Scoring      | [`score.go`](score.go)                              | Blob heuristics, pick lowest score      |
 | Orchestrator | [`layout.go`](layout.go)                            | `Layout`, placement loop, output        |
 | Wall         | [`wall.go`](wall.go)                                | Optional bounding box filter            |
 | State        | [`placed.go`](placed.go)                            | `PlacedItem`, `Cluster`, `Bounds`       |
 | Output       | [`result.go`](result.go) · [`output.go`](output.go) | `Result`, neighbors, direction          |
 | Quality      | [`quality.go`](quality.go)                          | Test helpers (aspect, spread, …)        |
-
----
 
 ## Example — 12 paintings
 
@@ -74,9 +68,7 @@ flowchart LR
 }
 ```
 
-**Result:** 38×40 blob · 11 diagonal placements · centerpiece `main` at origin.
-
----
+Result: 38×40 blob. Eleven diagonal placements. Centerpiece `main` at origin.
 
 ## End-to-end sequence
 
@@ -114,8 +106,6 @@ sequenceDiagram
   Result-->>Client: Result (positions, bounds, neighbors)
 ```
 
----
-
 ## Step 1 — Validate
 
 [`Validate()`](validate.go) · [`validateWall()`](wall.go)
@@ -138,34 +128,30 @@ flowchart TD
   W -->|no| OK
 ```
 
----
-
-## Step 2 — Anchor + sort
+## Step 2 — Anchor and sort
 
 [`findCenterpiece()`](order.go) · [`sortForPlacement()`](order.go) · [`anchorCenterpiece()`](order.go)
 
-| Order | ID       | Area | Why first                          |
-| ----: | -------- | ---: | ---------------------------------- |
-|     — | **main** |  224 | Centerpiece → `(0, 0)` immediately |
-|     1 | **p03**  |  108 | Largest satellite                  |
-|     2 | **p09**  |  100 |                                    |
-|     3 | **p06**  |   88 |                                    |
-|     4 | **p01**  |   80 |                                    |
-|     5 | **p07**  |   70 |                                    |
-|     6 | **p02**  |   64 |                                    |
-|     7 | **p05**  |   63 |                                    |
-|     8 | **p11**  |   54 |                                    |
-|     9 | **p08**  |   48 |                                    |
-|    10 | **p04**  |   36 |                                    |
-|    11 | **p10**  |   35 | Smallest last — fills gaps         |
+| Order | ID   | Area | Why first                          |
+| ----: | ---- | ---: | ---------------------------------- |
+|     — | main |  224 | Centerpiece → `(0, 0)` immediately |
+|     1 | p03  |  108 | Largest satellite                  |
+|     2 | p09  |  100 |                                    |
+|     3 | p06  |   88 |                                    |
+|     4 | p01  |   80 |                                    |
+|     5 | p07  |   70 |                                    |
+|     6 | p02  |   64 |                                    |
+|     7 | p05  |   63 |                                    |
+|     8 | p11  |   54 |                                    |
+|     9 | p08  |   48 |                                    |
+|    10 | p04  |   36 |                                    |
+|    11 | p10  |   35 | Smallest last — fills gaps         |
 
-Large frames first → compact core; small frames last → tuck into corners.
-
----
+Large frames first establish the blob core. Small frames last tuck into corners.
 
 ## Step 3 — Placement loop (trace)
 
-Each iteration: **generate → filter → score → append**.
+Each iteration runs generate, filter, score, and append.
 
 ### After centerpiece
 
@@ -228,7 +214,7 @@ graph TD
 |  10 | p04 | `(-16, -13)` | NW  |
 |  11 | p10 | `(12, -17)`  | NE  |
 
-Final bounds: **38 × 40** · all 12 connected · no floaters.
+Final bounds: 38 × 40. All 12 connected. No floaters.
 
 ```mermaid
 graph TD
@@ -253,8 +239,6 @@ graph TD
   p02 --- p10
 ```
 
----
-
 ## Candidate generation
 
 [`GenerateCandidates()`](candidates.go) · [`sideCandidates()`](candidates.go) · [`cornerCandidates()`](candidates.go)
@@ -273,7 +257,7 @@ flowchart TD
   F -->|ok| G[keep]
 ```
 
-**Attachment offset** uses shape-aware half-extents from [`HalfExtents()`](geometry.go):
+Attachment offset uses shape-aware half-extents from [`HalfExtents()`](geometry.go):
 
 | Shape              | Extent                  |
 | ------------------ | ----------------------- |
@@ -283,9 +267,7 @@ flowchart TD
 
 Gap `g` is added between extents: `anchor_half + g + item_half`.
 
----
-
-## Collision & adjacency
+## Collision and adjacency
 
 [`Collides()`](collision.go) · [`Adjacent()`](adjacency.go)
 
@@ -304,13 +286,11 @@ flowchart LR
   adjacent -->|yes| ACC[valid attachment]
 ```
 
----
-
 ## Scoring
 
 [`ScoreCandidate()`](score.go) · [`BestCandidate()`](score.go)
 
-**Lower score wins.** Rewards (−) pull toward good blobs; penalties (+) push away.
+Lower score wins. Rewards pull toward good blobs. Penalties push away from bad shapes.
 
 ```mermaid
 flowchart TB
@@ -340,9 +320,7 @@ flowchart TB
 | Diagonal / quadrant fill | Corner blobs, less wasted wall      |
 | Local continuity         | Prefer slots touching 2+ neighbors  |
 
-Tiebreak in [`candidateLess()`](score.go): prefer diagonal → spread off flat axis → stable x/y order.
-
----
+Tiebreak in [`candidateLess()`](score.go): prefer diagonal, then spread off flat axis, then stable x/y order.
 
 ## Output
 
@@ -358,17 +336,13 @@ flowchart LR
   B --> R[result bounds]
 ```
 
-**Coordinate system:** +X right, +Y down · anchor at centerpiece center.
-
----
+Coordinate system: +X right, +Y down. Anchor at centerpiece center.
 
 ## Optional wall
 
 [`Params.WallWidth / WallHeight`](types.go) · [`footprintFitsWall()`](wall.go)
 
-Wall is a rectangle **centered on anchor**. Candidates whose dimension bbox would cross the edge are filtered out before scoring. Omitted = unbounded.
-
----
+Wall is a rectangle centered on anchor. Candidates whose dimension bbox would cross the edge are filtered out before scoring. Omit both dimensions for unbounded placement.
 
 ## Errors
 
@@ -379,11 +353,9 @@ Wall is a rectangle **centered on anchor**. Candidates whose dimension bbox woul
 
 Use `errors.Is(err, &ValidationError{Code: …})` or [`IsValidationCode()`](errors.go).
 
----
-
 ## Run the example
 
-[`example_test.go`](example_test.go) uses small inline datasets (self-contained runnable docs). Golden regression uses [`testdata/`](testdata/).
+[`example_test.go`](example_test.go) uses small inline datasets. Golden regression uses [`testdata/`](testdata/).
 
 ```bash
 # from repository root (requires go.work)
@@ -395,7 +367,7 @@ go test -run Example -v
 go test -run Golden -v
 ```
 
-**Visualize** with [`cmd/gallery-svg/`](../cmd/gallery-svg/) — needs a **result** JSON (positions), not params:
+Visualize with [`cmd/gallery-svg/`](../cmd/gallery-svg/). It needs a result JSON (positions), not params:
 
 ```bash
 go run ./cmd/gallery-svg/
