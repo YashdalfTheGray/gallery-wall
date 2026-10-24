@@ -4,11 +4,11 @@ globs: web/**/*,wasm/**/*,scripts/**/*
 alwaysApply: false
 ---
 
-# Web app & WASM
+# Web app and WASM
 
-Static single-page app — **no backend**. Layout runs in-browser via Go WASM.
+Static single-page app. No backend. Layout runs in-browser via Go WASM.
 
-## Build & dev
+## Build and dev
 
 ```bash
 ./scripts/build-wasm.sh          # → web/public/layout.wasm + wasm_exec.js
@@ -24,7 +24,7 @@ Root module imports `github.com/yashdalfthegray/gallery-wall/layout` (local repl
 ## WASM bridge (`wasm/main.go`)
 
 - Registers global `goLayout(paramsJsonString)` → JSON `{ ok, result?, error?, message? }`.
-- Typed errors mirror `ValidationError` / `PlacementError` codes for the UI.
+- Typed errors mirror `ValidationError` and `PlacementError` codes for the UI.
 
 ## Frontend structure (`web/src/`)
 
@@ -38,25 +38,25 @@ Root module imports `github.com/yashdalfthegray/gallery-wall/layout` (local repl
 | `frame-editor.ts` | Editor model: centerpiece + satellite batches with copy counts |
 | `frame-editor-ui.ts` | DOM for shape/height/width/copies rows |
 | `items-editor.ts` | Form ↔ JSON tab sync, custom tab buttons (not `wa-tab-group`) |
-| `svg.ts` | Preview SVG + export; two-pass render (shapes then labels) |
+| `svg.ts` | Preview SVG and export; two-pass render (shapes then labels) |
 | `random.ts` | Random 5–20 frame generator |
 | `webawesome.ts` | Theme init, component side-effect imports |
 | `style.css` | Layout; imports Web Awesome CSS; `wa-cloak` FOUC fix |
 
 ## UI panels
 
-- **Params:** gap, optional wall width/height (0 = none), frame editor (Form | JSON tabs).
-- **Preview:** SVG cluster + stats KV table (frames/gap/cluster size | anchor/bounds) + status line at bottom.
+- Params: gap, optional wall width/height (0 = none), frame editor (Form or JSON tabs).
+- Preview: SVG cluster, stats KV table (frames/gap/cluster size, anchor/bounds), status line at bottom.
 
 ## Frame editor model
 
-- **Centerpiece:** one row — shape, height, width.
-- **Satellites:** batch rows — shape, copies, height, width, remove (×).
+- Centerpiece: one row — shape, height, width.
+- Satellites: batch rows — shape, copies, height, width, remove (×).
 - `editorModelToItems()` expands batches into flat `Item[]` with generated IDs before layout.
 
 ## Persistence
 
-- `localStorage` autosave: params + last result (`storage.ts`).
+- `localStorage` autosave: params and last result (`storage.ts`).
 - Import/export: `gallery-wall-state.json`.
 - Presets: `web/public/presets/twentyfive.json`.
 
@@ -68,4 +68,4 @@ Root module imports `github.com/yashdalfthegray/gallery-wall/layout` (local repl
 
 ## Dev visualization
 
-`cmd/gallery-svg/` reads a **result** JSON (not params) and writes SVG — used for `layout/testdata/twentyfive_diagram.svg`.
+`cmd/gallery-svg/` reads a result JSON (not params) and writes SVG. Used for `layout/testdata/twentyfive_diagram.svg`.

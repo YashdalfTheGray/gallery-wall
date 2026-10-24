@@ -20,14 +20,14 @@ func Validate(params Params) error
 | File | Responsibility |
 |------|----------------|
 | `types.go` | `Shape`, `Item`, `Params`, `Bounds` |
-| `validate.go` | Structural validation + wall validation |
+| `validate.go` | Structural validation and wall validation |
 | `wall.go` | `WallBounds()`, `footprintFitsWall`, centerpiece-in-wall check |
 | `geometry.go` | `Footprint`, shape-aware bbox/collision geometry |
 | `collision.go` | `Collides` with gap |
 | `adjacency.go` | `Adjacent` — connectivity within gap |
 | `placed.go` | `PlacedItem`, `Cluster`, `Bounds()` |
 | `order.go` | Centerpiece find, sort (area ↓, max side ↓, id ↑), anchor at origin |
-| `candidates.go` | Perimeter + corner attachment, 1-unit slide, dedupe, wall filter |
+| `candidates.go` | Perimeter and corner attachment, 1-unit slide, dedupe, wall filter |
 | `score.go` | w1–w5 weighted score, `BestCandidate` |
 | `layout.go` | Orchestrator: validate → anchor → place loop → `buildResult` |
 | `result.go` | `Result`, `PlacedResult`, `Anchor` JSON types |
@@ -36,10 +36,10 @@ func Validate(params Params) error
 | `quality.go` | Regression helpers: aspect ratio, hull fill, neighbor checks |
 | `doc.go` | Package godoc |
 
-## Params & wall
+## Params and wall
 
 - `Gap` (required): minimum separation between frames.
-- `WallWidth` / `WallHeight` (optional): both must be > 0 or both omitted/zero. Wall is centered on anchor; candidates and placements must fit inside.
+- `WallWidth` and `WallHeight` (optional): both must be > 0 or both omitted/zero. Wall is centered on anchor. Candidates and placements must fit inside.
 - Validation codes include `invalid_wall`, `centerpiece_exceeds_wall`.
 
 ## Placement loop
@@ -59,7 +59,7 @@ go test -run Golden -v                 # golden JSON in testdata/
 go test -run Example -v                # godoc examples
 ```
 
-Golden fixtures: `testdata/centerpiece_*`, `twentyfive_*`. Regenerate carefully — positions are deterministic but scoring tweaks change output.
+Golden fixtures: `testdata/centerpiece_*`, `twentyfive_*`. Regenerate carefully. Positions are deterministic but scoring tweaks change output.
 
 ## External consumers
 

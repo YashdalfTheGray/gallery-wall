@@ -1,0 +1,36 @@
+---
+description: STE-100 documentation standard for markdown and technical prose
+alwaysApply: true
+---
+
+# Documentation standard (STE-100)
+
+Write all documentation in ASD-STE100 (STE-100). Write as a technical author. Do not write marketing prose.
+
+## Language
+
+Use short sentences. Use one idea per sentence. Use the active voice. Use imperative verbs for procedures (for example: "Run the test."). Use approved STE words when a simpler word exists in the STE dictionary. Do not use slang, idioms, or figurative language.
+
+## Format
+
+Do not insert forced line breaks in prose. Write each paragraph as continuous text. Do not wrap lines at a fixed column width. Use blank lines only between blocks (headings, paragraphs, lists, tables, code fences).
+
+Use Markdown structure (headings, lists, tables) for organization. Use code fences for commands and code.
+
+## Tone
+
+State facts. Do not over-emphasize. Do not use excessive bold, italics, or ALL CAPS. Do not use labels such as "Important", "Note", or "Warning" unless the document type requires them (for example: safety warnings).
+
+## Scope
+
+This rule applies to README files, AGENTS.md, CLAUDE.md, docs/, .cursor/rules/, godoc prose, commit messages that document behavior, and user-facing UI copy in documentation.
+
+## Examples
+
+Bad: "This **powerful** feature lets you easily arrange frames in a beautiful way!"
+
+Good: "The layout engine places frames around a centerpiece."
+
+Bad: a prose paragraph with hard line breaks in the middle of sentences for column width.
+
+Good: one continuous paragraph per block without arbitrary line breaks.
